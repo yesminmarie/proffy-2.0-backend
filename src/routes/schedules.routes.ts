@@ -1,27 +1,37 @@
 import { Router } from 'express';
-import { startOfHour, parseISO } from 'date-fns';
+import { parseISO } from 'date-fns';
 import SchedulesRepository from '../repositories/SchedulesRepository';
+import CreateSchedulesService from '../services/CreateScheduleService';
 
 const schedulesRouter = Router();
 
 const schedulesRepository = new SchedulesRepository();
 
+schedulesRouter.get('/', (request, response) => {
+    const listSchedules = schedulesRepository.all();
+
+    return response.json(listSchedules);
+});
+
 schedulesRouter.post('/', (request, response) => {
-    const { name, date } = request.body;
+    try {
+        const { name, date } = request.body;
 
-    const formatedDate = startOfHour(parseISO(date));
+        const convertedDate = parseISO(date);
 
-    const scheduleSameDate = schedulesRepository.findByDate(formatedDate);
+        const createSchedulesService = new CreateSchedulesService(
+            schedulesRepository,
+        );
 
-    if (scheduleSameDate) {
-        return response
-            .status(400)
-            .json({ message: 'This schedule is already booked.' });
+        const schedule = createSchedulesService.execute({
+            name,
+            date: convertedDate,
+        });
+
+        return response.json(schedule);
+    } catch (err) {
+        return response.status(400).json({ error: err.message });
     }
-
-    const schedule = schedulesRepository.create(name, formatedDate);
-
-    return response.json(schedule);
 });
 
 export default schedulesRouter;
