@@ -1,33 +1,23 @@
-import { startOfHour } from 'date-fns';
+import { getCustomRepository } from 'typeorm';
 import SchedulesRepository from '../repositories/SchedulesRepository';
 import Schedule from '../models/Schedule';
 
-interface Request {
-    name: string;
-    date: Date;
+interface IRequest {
+    week_day: number;
+    from: number;
+    to: number;
 }
 class CreateScheduleService {
-    private schedulesRepository: SchedulesRepository;
+    public async execute({ week_day, from, to }: IRequest): Promise<Schedule> {
+        const schedulesRepository = getCustomRepository(SchedulesRepository);
 
-    constructor(schedulesRepository: SchedulesRepository) {
-        this.schedulesRepository = schedulesRepository;
-    }
-
-    public execute({ name, date }: Request): Schedule {
-        const formatedDate = startOfHour(date);
-
-        const scheduleSameDate = this.schedulesRepository.findByDate(
-            formatedDate,
-        );
-
-        if (scheduleSameDate) {
-            throw new Error('This schedule is already booked.');
-        }
-
-        const schedule = this.schedulesRepository.create({
-            name,
-            date: formatedDate,
+        const schedule = schedulesRepository.create({
+            week_day,
+            from,
+            to,
         });
+
+        await schedulesRepository.save(schedule);
 
         return schedule;
     }

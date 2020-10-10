@@ -1,31 +1,27 @@
 import { Router } from 'express';
-import { parseISO } from 'date-fns';
+import { getCustomRepository } from 'typeorm';
 import SchedulesRepository from '../repositories/SchedulesRepository';
 import CreateSchedulesService from '../services/CreateScheduleService';
 
 const schedulesRouter = Router();
 
-const schedulesRepository = new SchedulesRepository();
-
 schedulesRouter.get('/', (request, response) => {
-    const listSchedules = schedulesRepository.all();
+    const schedulesRepository = getCustomRepository(SchedulesRepository);
+    const listSchedules = schedulesRepository.find();
 
     return response.json(listSchedules);
 });
 
-schedulesRouter.post('/', (request, response) => {
+schedulesRouter.post('/', async (request, response) => {
     try {
-        const { name, date } = request.body;
+        const { week_day, from, to } = request.body;
 
-        const convertedDate = parseISO(date);
+        const createSchedulesService = new CreateSchedulesService();
 
-        const createSchedulesService = new CreateSchedulesService(
-            schedulesRepository,
-        );
-
-        const schedule = createSchedulesService.execute({
-            name,
-            date: convertedDate,
+        const schedule = await createSchedulesService.execute({
+            week_day,
+            from,
+            to,
         });
 
         return response.json(schedule);
