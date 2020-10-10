@@ -1,17 +1,30 @@
-import { v4 } from 'uuid';
+import {
+    Column,
+    Entity,
+    PrimaryGeneratedColumn,
+    CreateDateColumn,
+    UpdateDateColumn,
+} from 'typeorm';
 
+@Entity('schedules')
 class Schedule {
+    @PrimaryGeneratedColumn('uuid')
     id: string;
 
-    name: string;
+    @Column('integer')
+    week_day: number;
 
-    date: Date;
+    @Column('integer')
+    from: number;
 
-    constructor({ name, date }: Omit<Schedule, 'id'>) {
-        this.id = v4();
-        this.name = name;
-        this.date = date;
-    }
+    @Column('integer')
+    to: number;
+
+    @CreateDateColumn()
+    created_at: Date;
+
+    @UpdateDateColumn()
+    updated_at: Date;
 }
 
 export default Schedule;
