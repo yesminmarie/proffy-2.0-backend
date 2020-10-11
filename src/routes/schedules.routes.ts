@@ -5,20 +5,21 @@ import CreateSchedulesService from '../services/CreateScheduleService';
 
 const schedulesRouter = Router();
 
-schedulesRouter.get('/', (request, response) => {
+schedulesRouter.get('/', async (request, response) => {
     const schedulesRepository = getCustomRepository(SchedulesRepository);
-    const listSchedules = schedulesRepository.find();
+    const listSchedules = await schedulesRepository.find();
 
     return response.json(listSchedules);
 });
 
 schedulesRouter.post('/', async (request, response) => {
     try {
-        const { week_day, from, to } = request.body;
+        const { class_id, week_day, from, to } = request.body;
 
         const createSchedulesService = new CreateSchedulesService();
 
         const schedule = await createSchedulesService.execute({
+            class_id,
             week_day,
             from,
             to,
