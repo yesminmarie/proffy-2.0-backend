@@ -3,7 +3,11 @@ import { getCustomRepository } from 'typeorm';
 import SchedulesRepository from '../repositories/SchedulesRepository';
 import CreateSchedulesService from '../services/CreateScheduleService';
 
+import ensureAuthenticated from '../middlewares/ensureAuthenticated';
+
 const schedulesRouter = Router();
+
+schedulesRouter.use(ensureAuthenticated);
 
 schedulesRouter.get('/', async (request, response) => {
     const schedulesRepository = getCustomRepository(SchedulesRepository);
