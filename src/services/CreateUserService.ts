@@ -9,7 +9,6 @@ interface IRequest {
     whatsapp: string;
     bio: string;
     password: string;
-    avatar: string;
 }
 class CreateUserService {
     public async execute({
@@ -19,7 +18,6 @@ class CreateUserService {
         whatsapp,
         bio,
         password,
-        avatar,
     }: IRequest): Promise<User> {
         const userRepository = getRepository(User);
 
@@ -40,7 +38,6 @@ class CreateUserService {
             whatsapp,
             bio,
             password: hashedPassword,
-            avatar,
         });
 
         await userRepository.save(user);
