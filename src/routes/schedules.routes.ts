@@ -17,22 +17,18 @@ schedulesRouter.get('/', async (request, response) => {
 });
 
 schedulesRouter.post('/', async (request, response) => {
-    try {
-        const { class_id, week_day, from, to } = request.body;
+    const { class_id, week_day, from, to } = request.body;
 
-        const createSchedulesService = new CreateSchedulesService();
+    const createSchedulesService = new CreateSchedulesService();
 
-        const schedule = await createSchedulesService.execute({
-            class_id,
-            week_day,
-            from,
-            to,
-        });
+    const schedule = await createSchedulesService.execute({
+        class_id,
+        week_day,
+        from,
+        to,
+    });
 
-        return response.json(schedule);
-    } catch (err) {
-        return response.status(400).json({ error: err.message });
-    }
+    return response.json(schedule);
 });
 
 export default schedulesRouter;
