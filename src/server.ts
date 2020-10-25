@@ -1,5 +1,6 @@
 import express from 'express';
 import routes from './routes';
+import uploadConfig from './config/upload';
 
 import './database';
 import 'reflect-metadata';
@@ -7,6 +8,7 @@ import 'reflect-metadata';
 const app = express();
 
 app.use(express.json());
+app.use('/files', express.static(uploadConfig.directory));
 app.use(routes);
 
 app.listen(3333, () => {
