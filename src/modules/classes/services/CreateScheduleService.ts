@@ -1,6 +1,6 @@
 import { getCustomRepository } from 'typeorm';
+import Schedule from '@modules/classes/infra/typeorm/entities/Schedule';
 import SchedulesRepository from '../repositories/SchedulesRepository';
-import Schedule from '../models/Schedule';
 
 interface IRequest {
     class_id: string;

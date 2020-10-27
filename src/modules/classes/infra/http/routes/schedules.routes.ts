@@ -1,9 +1,9 @@
 import { Router } from 'express';
 import { getCustomRepository } from 'typeorm';
-import SchedulesRepository from '../repositories/SchedulesRepository';
-import CreateSchedulesService from '../services/CreateScheduleService';
+import SchedulesRepository from '@modules/classes/repositories/SchedulesRepository';
+import CreateSchedulesService from '@modules/classes/services/CreateScheduleService';
 
-import ensureAuthenticated from '../middlewares/ensureAuthenticated';
+import ensureAuthenticated from '@modules/users/infra/http/middlewares/ensureAuthenticated';
 
 const schedulesRouter = Router();
 

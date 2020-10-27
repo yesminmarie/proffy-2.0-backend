@@ -1,5 +1,5 @@
 import { getRepository } from 'typeorm';
-import Class from '../models/Class';
+import Class from '@modules/classes/infra/typeorm/entities/Class';
 
 interface IRequest {
     user_id: string;

@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import CreateClassService from '../services/CreateClassService';
+import CreateClassService from '@modules/classes/services/CreateClassService';
 
 const classesRouter = Router();
 
