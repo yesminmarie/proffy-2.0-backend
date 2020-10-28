@@ -17,14 +17,12 @@ class CreateScheduleService {
     }: IRequest): Promise<Schedule> {
         const schedulesRepository = getCustomRepository(SchedulesRepository);
 
-        const schedule = schedulesRepository.create({
+        const schedule = await schedulesRepository.create({
             class_id,
             week_day,
             from,
             to,
         });
-
-        await schedulesRepository.save(schedule);
 
         return schedule;
     }
