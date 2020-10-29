@@ -1,6 +1,5 @@
-import { getCustomRepository } from 'typeorm';
 import Schedule from '@modules/classes/infra/typeorm/entities/Schedule';
-import SchedulesRepository from '../repositories/SchedulesRepository';
+import ISchedulesRepository from '@modules/classes/repositories/ISchedulesRepository';
 
 interface IRequest {
     class_id: string;
@@ -9,15 +8,15 @@ interface IRequest {
     to: number;
 }
 class CreateScheduleService {
+    constructor(private schedulesRepository: ISchedulesRepository) {}
+
     public async execute({
         class_id,
         week_day,
         from,
         to,
     }: IRequest): Promise<Schedule> {
-        const schedulesRepository = getCustomRepository(SchedulesRepository);
-
-        const schedule = await schedulesRepository.create({
+        const schedule = await this.schedulesRepository.create({
             class_id,
             week_day,
             from,

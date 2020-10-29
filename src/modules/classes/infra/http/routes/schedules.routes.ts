@@ -1,25 +1,28 @@
 import { Router } from 'express';
-import { getCustomRepository } from 'typeorm';
-import SchedulesRepository from '@modules/classes/repositories/SchedulesRepository';
+
+import SchedulesRepository from '@modules/classes/infra/typeorm/repositories/SchedulesRepository';
 import CreateSchedulesService from '@modules/classes/services/CreateScheduleService';
 
 import ensureAuthenticated from '@modules/users/infra/http/middlewares/ensureAuthenticated';
 
 const schedulesRouter = Router();
+const schedulesRepository = new SchedulesRepository();
 
 schedulesRouter.use(ensureAuthenticated);
 
-schedulesRouter.get('/', async (request, response) => {
-    const schedulesRepository = getCustomRepository(SchedulesRepository);
-    const listSchedules = await schedulesRepository.find();
+// schedulesRouter.get('/', async (request, response) => {
 
-    return response.json(listSchedules);
-});
+//     const listSchedules = await schedulesRepository.find();
+
+//     return response.json(listSchedules);
+// });
 
 schedulesRouter.post('/', async (request, response) => {
     const { class_id, week_day, from, to } = request.body;
 
-    const createSchedulesService = new CreateSchedulesService();
+    const createSchedulesService = new CreateSchedulesService(
+        schedulesRepository,
+    );
 
     const schedule = await createSchedulesService.execute({
         class_id,
