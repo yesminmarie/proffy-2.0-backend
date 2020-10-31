@@ -1,5 +1,5 @@
-import Schedule from '@modules/classes/infra/typeorm/entities/Schedule';
-import ISchedulesRepository from '@modules/classes/repositories/ISchedulesRepository';
+import Schedule from '@modules/schedules/infra/typeorm/entities/Schedule';
+import ISchedulesRepository from '@modules/schedules/repositories/ISchedulesRepository';
 
 interface IRequest {
     class_id: string;

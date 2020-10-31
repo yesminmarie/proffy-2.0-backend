@@ -1,5 +1,5 @@
-import { getRepository } from 'typeorm';
 import Class from '@modules/classes/infra/typeorm/entities/Class';
+import IClassesRepository from '@modules/classes/repositories/IClassesRepository';
 
 interface IRequest {
     user_id: string;
@@ -8,16 +8,14 @@ interface IRequest {
 }
 
 class CreateClassService {
-    public async execute({ user_id, subject, cost }: IRequest): Promise<Class> {
-        const classRepository = getRepository(Class);
+    constructor(private classesRepository: IClassesRepository) {}
 
-        const classData = classRepository.create({
+    public async execute({ user_id, subject, cost }: IRequest): Promise<Class> {
+        const classData = await this.classesRepository.create({
             user_id,
             subject,
             cost,
         });
-
-        await classRepository.save(classData);
 
         return classData;
     }

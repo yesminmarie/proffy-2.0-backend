@@ -8,7 +8,7 @@ import {
     JoinColumn,
 } from 'typeorm';
 
-import Class from './Class';
+import Class from '@modules/classes/infra/typeorm/entities/Class';
 
 @Entity('schedules')
 class Schedule {

@@ -1,8 +1,8 @@
 import { getRepository, Repository } from 'typeorm';
 
-import ISchedulesRepository from '@modules/classes/repositories/ISchedulesRepository';
-import ICreateScheduleDTO from '@modules/classes/dtos/ICreateScheduleDTO';
-import Schedule from '@modules/classes/infra/typeorm/entities/Schedule';
+import ISchedulesRepository from '@modules/schedules/repositories/ISchedulesRepository';
+import ICreateScheduleDTO from '@modules/schedules/dtos/ICreateScheduleDTO';
+import Schedule from '@modules/schedules/infra/typeorm/entities/Schedule';
 
 class SchedulesRepository implements ISchedulesRepository {
     private ormRepository: Repository<Schedule>;

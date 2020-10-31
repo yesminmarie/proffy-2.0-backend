@@ -1,12 +1,11 @@
 import { Router } from 'express';
 
-import SchedulesRepository from '@modules/classes/infra/typeorm/repositories/SchedulesRepository';
-import CreateSchedulesService from '@modules/classes/services/CreateScheduleService';
+import SchedulesRepository from '@modules/schedules/infra/typeorm/repositories/SchedulesRepository';
+import CreateSchedulesService from '@modules/schedules/services/CreateScheduleService';
 
 import ensureAuthenticated from '@modules/users/infra/http/middlewares/ensureAuthenticated';
 
 const schedulesRouter = Router();
-const schedulesRepository = new SchedulesRepository();
 
 schedulesRouter.use(ensureAuthenticated);
 
@@ -20,6 +19,7 @@ schedulesRouter.use(ensureAuthenticated);
 schedulesRouter.post('/', async (request, response) => {
     const { class_id, week_day, from, to } = request.body;
 
+    const schedulesRepository = new SchedulesRepository();
     const createSchedulesService = new CreateSchedulesService(
         schedulesRepository,
     );

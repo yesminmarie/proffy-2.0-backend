@@ -1,5 +1,5 @@
 import { Router } from 'express';
-import schedulesRouter from '@modules/classes/infra/http/routes/schedules.routes';
+import schedulesRouter from '@modules/schedules/infra/http/routes/schedules.routes';
 import classesRouter from '@modules/classes/infra/http/routes/classes.routes';
 import usersRouter from '@modules/users/infra/http/routes/users.routes';
 import sessionsRouter from '@modules/users/infra/http/routes/session.routes';
