@@ -1,5 +1,6 @@
 import Class from '@modules/classes/infra/typeorm/entities/Class';
 import IClassesRepository from '@modules/classes/repositories/IClassesRepository';
+import { injectable, inject } from 'tsyringe';
 
 interface IRequest {
     user_id: string;
@@ -7,8 +8,12 @@ interface IRequest {
     cost: number;
 }
 
+@injectable()
 class CreateClassService {
-    constructor(private classesRepository: IClassesRepository) {}
+    constructor(
+        @inject('ClassesRepository')
+        private classesRepository: IClassesRepository,
+    ) {}
 
     public async execute({ user_id, subject, cost }: IRequest): Promise<Class> {
         const classData = await this.classesRepository.create({

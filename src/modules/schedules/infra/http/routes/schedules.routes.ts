@@ -1,6 +1,6 @@
 import { Router } from 'express';
+import { container } from 'tsyringe';
 
-import SchedulesRepository from '@modules/schedules/infra/typeorm/repositories/SchedulesRepository';
 import CreateSchedulesService from '@modules/schedules/services/CreateScheduleService';
 
 import ensureAuthenticated from '@modules/users/infra/http/middlewares/ensureAuthenticated';
@@ -19,10 +19,7 @@ schedulesRouter.use(ensureAuthenticated);
 schedulesRouter.post('/', async (request, response) => {
     const { class_id, week_day, from, to } = request.body;
 
-    const schedulesRepository = new SchedulesRepository();
-    const createSchedulesService = new CreateSchedulesService(
-        schedulesRepository,
-    );
+    const createSchedulesService = container.resolve(CreateSchedulesService);
 
     const schedule = await createSchedulesService.execute({
         class_id,
