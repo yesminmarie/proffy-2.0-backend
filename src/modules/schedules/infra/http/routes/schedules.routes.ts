@@ -1,7 +1,6 @@
 import { Router } from 'express';
-import { container } from 'tsyringe';
 
-import CreateSchedulesService from '@modules/schedules/services/CreateScheduleService';
+import SchedulesController from '@modules/schedules/infra/http/controllers/SchedulesController';
 
 import ensureAuthenticated from '@modules/users/infra/http/middlewares/ensureAuthenticated';
 
@@ -9,26 +8,8 @@ const schedulesRouter = Router();
 
 schedulesRouter.use(ensureAuthenticated);
 
-// schedulesRouter.get('/', async (request, response) => {
+const schedulesController = new SchedulesController();
 
-//     const listSchedules = await schedulesRepository.find();
-
-//     return response.json(listSchedules);
-// });
-
-schedulesRouter.post('/', async (request, response) => {
-    const { class_id, week_day, from, to } = request.body;
-
-    const createSchedulesService = container.resolve(CreateSchedulesService);
-
-    const schedule = await createSchedulesService.execute({
-        class_id,
-        week_day,
-        from,
-        to,
-    });
-
-    return response.json(schedule);
-});
+schedulesRouter.post('/', schedulesController.create);
 
 export default schedulesRouter;
